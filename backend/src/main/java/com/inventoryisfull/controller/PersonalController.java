@@ -1,65 +1,51 @@
 package com.inventoryisfull.controller;
 
-import com.inventoryisfull.repository.PersonalRepository;
-import com.inventoryisfull.domain.Personal;
-import com.inventoryisfull.exceptions.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestController;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import org.springframework.validation.annotation.Validated;
+import com.inventoryisfull.domain.Personal;
+import com.inventoryisfull.service.PersonalService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import com.inventoryisfull.exceptions.*;
 
 @RestController
+@RequestMapping("/api/personal")
 public class PersonalController {
 
     @Autowired
-    private PersonalRepository personalRepository;
+    private PersonalService personalService;
 
-    @GetMapping("/api/personal")
-    public List<Personal> getAllPersonal(){
-        return personalRepository.findAll();
-    }
-    
-    @GetMapping("/api/personal/{id}")
-    public ResponseEntity<Personal> getpersonalById(@PathVariable(value = "id") Long id)
-        throws ResourceNotFoundException {
-        Personal personal = personalRepository.findById(id)
-          .orElseThrow(() -> new ResourceNotFoundException("personal not found for this id :: " + id));
-        return ResponseEntity.ok().body(personal);
+    // Create
+    @PostMapping("")
+    public ResponseEntity<Personal> addPersonal(@Validated @RequestBody Personal personal) {
+        return personalService.savePersonal(personal);
     }
 
-    @PostMapping("/api/personal")
-    public Personal createPersonal(@Validated @RequestBody Personal personal){
-        return personalRepository.save(personal);
+    // Read
+    @GetMapping("")
+    public Iterable<Personal> getPersonals() {
+        return personalService.listPersonals();
     }
 
-    @PutMapping("/api/personal/{id}")
-    public ResponseEntity<Personal> updatePersonal(@PathVariable(value="id") Long id, @Validated @RequestBody Personal personalDetails) throws ResourceNotFoundException {
-        Personal personal = personalRepository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("personal not found for this id :: " + id));
-
-        personal.setNombre(personalDetails.getNombre());
-        personal.setOcupacion(personalDetails.getOcupacion());
-        personal.setArea(personalDetails.getArea());
-        final Personal updatedpersonal = personalRepository.save(personal);
-        return ResponseEntity.ok(updatedpersonal);
-        
+    @GetMapping("/{id}")
+    public ResponseEntity<Personal> getPersonalById(@PathVariable("id") Long id) throws ResourceNotFoundException {
+        return personalService.getPersonalById(id);
     }
 
-    @DeleteMapping("/api/personal/{id}")
-    public Map<String, Boolean> deletePersonal(@PathVariable(value = "id") Long id)
-         throws ResourceNotFoundException {
-        Personal personal = personalRepository.findById(id)
-       .orElseThrow(() -> new ResourceNotFoundException("personal not found for this id :: " + id));
+    // Update
+    @PutMapping("/{id}")
+    public ResponseEntity<Personal> updatePersonal(@Validated @RequestBody Personal newPersonal,
+            @PathVariable("id") Long id) throws ResourceNotFoundException {
 
-        personalRepository.delete(personal);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
+        return personalService.updatePersonal(newPersonal, id);
     }
+
+    // Delete
+    @DeleteMapping("/{id}")
+    public Map<String, Boolean> deletePersonal(@PathVariable("id") Long id) throws ResourceNotFoundException {
+
+        return personalService.deletePersonal(id);
+    }
+
 }

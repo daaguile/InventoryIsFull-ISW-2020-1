@@ -1,6 +1,7 @@
 package com.inventoryisfull.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "personal")
@@ -8,21 +9,24 @@ public class Personal {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id")
     private Long id;
 
-
+    @NotNull
     @Column(name="rut", unique=true)
     private String rut;
 
-	@Column(name="nombre")
+    @NotNull
     private String nombre;
 
-    @Column(name="ocupacion")
+    @NotNull
     private String ocupacion;
 
-    @Column(name="area")
+    @NotNull
     private String area;
+
+    public Long getId() {
+        return id;
+    }
 
     public String getRut() {
 		return this.rut;
