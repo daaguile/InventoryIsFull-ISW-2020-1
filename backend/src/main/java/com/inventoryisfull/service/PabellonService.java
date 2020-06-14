@@ -35,15 +35,15 @@ public class PabellonService {
     }
 
     // Update
-    public ResponseEntity<Pabellon> updatePabellon(Pabellon newPabellon, Long id) throws ResourceNotFoundException {
+    public ResponseEntity<Pabellon> updatePabellon(Pabellon editPabellon, Long id) throws ResourceNotFoundException {
 
         Pabellon pabellon = getPabellonById(id).getBody();
 
-        pabellon.setPiso(newPabellon.getPiso());
-        pabellon.setServicio(newPabellon.getServicio());
-        pabellon.setEspecialidad(newPabellon.getEspecialidad());
-        pabellon.setMedicoJefeNombre(newPabellon.getMedicoJefeNombre());
-        pabellon.setMedicoJefeApellido(newPabellon.getMedicoJefeApellido());
+        pabellon.setPiso(editPabellon.getPiso());
+        pabellon.setServicio(editPabellon.getServicio());
+        pabellon.setEspecialidad(editPabellon.getEspecialidad());
+        pabellon.setMedicoJefeNombre(editPabellon.getMedicoJefeNombre());
+        pabellon.setMedicoJefeApellido(editPabellon.getMedicoJefeApellido());
 
         final Pabellon updatedPabellon = savePabellon(pabellon).getBody();
         return ResponseEntity.ok(updatedPabellon);

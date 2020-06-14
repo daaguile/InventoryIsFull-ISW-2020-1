@@ -33,14 +33,15 @@ public class PersonalService {
     }
 
     // Update
-    public ResponseEntity<Personal> updatePersonal(Personal newPersonal, Long id) throws ResourceNotFoundException {
+    public ResponseEntity<Personal> updatePersonal(Personal editPersonal, Long id) throws ResourceNotFoundException {
 
         Personal personal = getPersonalById(id).getBody();
 
-        personal.setArea(newPersonal.getArea());
-        personal.setNombre(newPersonal.getNombre());
-        personal.setOcupacion(newPersonal.getOcupacion());
-        personal.setRut(newPersonal.getRut());
+        personal.setArea(editPersonal.getArea());
+        personal.setNombre(editPersonal.getNombre());
+        personal.setOcupacion(editPersonal.getOcupacion());
+        personal.setRut(editPersonal.getRut());
+        personal.setRol(editPersonal.getRol());
 
         final Personal updatedPersonal = savePersonal(personal).getBody();
         return ResponseEntity.ok(updatedPersonal);

@@ -33,15 +33,15 @@ public class PacienteService {
     }
 
     // Update
-    public ResponseEntity<Paciente> updatePaciente(Paciente newPaciente, Long id) throws ResourceNotFoundException {
+    public ResponseEntity<Paciente> updatePaciente(Paciente editPaciente, Long id) throws ResourceNotFoundException {
 
         Paciente paciente = getPacienteById(id).getBody();
 
-        paciente.setNombres(newPaciente.getNombres());
-        paciente.setApellidoPaterno(newPaciente.getApellidoPaterno());
-        paciente.setApellidoMaterno(newPaciente.getApellidoMaterno());
-        paciente.setRut(newPaciente.getRut());
-        paciente.setDao(newPaciente.getDao());
+        paciente.setNombres(editPaciente.getNombres());
+        paciente.setApellidoPaterno(editPaciente.getApellidoPaterno());
+        paciente.setApellidoMaterno(editPaciente.getApellidoMaterno());
+        paciente.setRut(editPaciente.getRut());
+        paciente.setDao(editPaciente.getDao());
 
         final Paciente updatedPaciente = savePaciente(paciente).getBody();
         return ResponseEntity.ok(updatedPaciente);

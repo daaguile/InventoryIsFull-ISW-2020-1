@@ -24,6 +24,9 @@ public class Personal {
     @NotNull
     private String area;
 
+    @NotNull
+    private String rol;
+
     public Long getId() {
         return id;
     }
@@ -59,4 +62,13 @@ public class Personal {
     public void setArea(String area) {
         this.area = area;
     }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
+
 }
