@@ -13,10 +13,11 @@ function App() {
     <Router>
       <NavigationBar/>
       <Switch>
-        <Route path="/" exact component={Welcome}/>
-        <Route path="/pabellones" exact component={Pabellones}/>
-        <Route path="/personal" exact component={Personal}/>
-        <Route path="/personal/agregar" exact component={PersonalForm}/>
+        <Route exact path="/"  component={Welcome}/>
+        <Route exact path="/pabellones"  component={Pabellones}/>
+        <Route exact path="/personal"  component={Personal}/>
+        <Route exact path="/personal/agregar" component={PersonalForm}/>
+        <Route exact path="/personal/editar/:id" component={PersonalForm}/>
       </Switch>
       <Footer/>
     </Router>

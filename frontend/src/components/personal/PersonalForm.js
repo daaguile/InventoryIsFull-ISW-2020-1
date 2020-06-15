@@ -1,24 +1,88 @@
 import React, { Component } from 'react';
 import {Container, Row, Col, Form, Button, Card} from 'react-bootstrap';
-
+import axios from 'axios';
 export default class PersonalForm extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {rut:'', nombre:'', ocupacion:'', area:'', rol:''};
+        this.state = this.initialState;
         this.personalChange = this.personalChange.bind(this);
         this.submitPersonal = this.submitPersonal.bind(this);
     }
 
-    submitPersonal(event){
-        alert('Rut: ' + this.state.rut + '\nNombre: ' + this.state.nombre + '\nOcupacion: ' + this.state.ocupacion + '\nArea: ' + this.state.area + '\nRol: '+ this.state.rol);
-        event.preventDefault();
+    initialState = {id:'' ,rut:'', nombre:'', ocupacion:'', area:'', rol:''}
+
+    componentDidMount(){
+        const personalId = +this.props.match.params.id;
+        if(personalId){
+            axios.get("http://localhost:9090/api/personal/"+personalId)
+                .then(response => {
+                    if(response.data != null){
+                        this.setState({
+                            id: response.data.id,
+                            rut: response.data.rut,
+                            nombre: response.data.nombre,
+                            ocupacion: response.data.ocupacion,
+                            area: response.data.area,
+                            rol: response.data.rol                            
+                        });
+                    }
+                }).catch((error) => {
+                    console.error("Error " + error);
+                });
+        }
     }
 
-    personalChange(event){
+    submitPersonal = event => {
+        alert('Rut: ' + this.state.rut + '\nNombre: ' + this.state.nombre + '\nOcupacion: ' + this.state.ocupacion + '\nArea: ' + this.state.area + '\nRol: '+ this.state.rol);
+        event.preventDefault();
+
+        const personal = {
+            rut: this.state.rut,
+            nombre: this.state.nombre,
+            ocupacion: this.state.ocupacion,
+            area: this.state.area,
+            rol: this.state.rol
+        };
+
+        axios.post("http://localhost:9090/api/personal", personal)
+            .then(response => {
+                if(response.data != null){
+                    this.setState(this.initialState);
+                    alert("Personal Agregado");
+                }
+            });
+    }
+
+    personalChange = event =>{
         this.setState({
             [event.target.name]:event.target.value
         });
+    }
+
+    resetPersonal = () => {
+        this.setState(() => this.initialState);
+    }
+
+    updatePersonal = event => {
+        event.preventDefault();
+
+        const personal = {
+            id: this.state.id,
+            rut: this.state.rut,
+            nombre: this.state.nombre,
+            ocupacion: this.state.ocupacion,
+            area: this.state.area,
+            rol: this.state.rol
+        };
+
+        axios.put("http://localhost:9090/api/personal/"+this.state.id, personal)
+            .then(response => {
+                if(response.data != null){
+                    this.setState(this.initialState);
+                    alert("Personal Editado");
+                }
+            });
     }
 
     render(){
@@ -27,8 +91,8 @@ export default class PersonalForm extends Component{
                 <Row>
                     <Col lg={12} style={{marginTop:"20px"}}>
                         <Card>
-                            <Card.Header>Agregar Nuevo Personal</Card.Header>
-                            <Form onSubmit={this.submitPersonal} id="personalForm">
+                            <Card.Header>{this.state.id ? "Editar Personal" : "Agregar Nuevo Personal"}</Card.Header>
+                            <Form onReset={this.resetPersonal} onSubmit={this.state.id ? this.updatePersonal : this.submitPersonal} id="personalForm">
                                 <Card.Body>
                                     <Form.Row>
                                         <Form.Group controlId="formGridRut">
@@ -59,8 +123,11 @@ export default class PersonalForm extends Component{
                                     </Form.Row>
                                 </Card.Body>
                                 <Card.Footer>
-                                    <Button variant="primary" type="submit">
-                                        Submit
+                                    <Button variant="success" type="submit">
+                                        {this.state.id ? "Update" : "Submit"}
+                                    </Button>{' '}
+                                    <Button variant="info" type="reset">
+                                        Reset
                                     </Button>
                                 </Card.Footer>
                             </Form>

@@ -11,6 +11,7 @@ import com.inventoryisfull.exceptions.*;
 
 @RestController
 @RequestMapping("/api/personal")
+@CrossOrigin
 public class PersonalController {
 
     @Autowired
