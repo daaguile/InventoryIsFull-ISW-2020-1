@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Container, Row, Col, Form, Button, Card} from 'react-bootstrap';
 import axios from 'axios';
+
+const ruta = "http://localhost:9000/api/personal/";
 export default class PersonalForm extends Component{
 
     constructor(props) {
@@ -15,7 +17,7 @@ export default class PersonalForm extends Component{
     componentDidMount(){
         const personalId = +this.props.match.params.id;
         if(personalId){
-            axios.get("http://localhost:9090/api/personal/"+personalId)
+            axios.get(ruta+personalId)
                 .then(response => {
                     if(response.data != null){
                         this.setState({
@@ -45,7 +47,7 @@ export default class PersonalForm extends Component{
             rol: this.state.rol
         };
 
-        axios.post("http://localhost:9090/api/personal", personal)
+        axios.post(ruta, personal)
             .then(response => {
                 if(response.data != null){
                     this.setState(this.initialState);
@@ -76,7 +78,7 @@ export default class PersonalForm extends Component{
             rol: this.state.rol
         };
 
-        axios.put("http://localhost:9090/api/personal/"+this.state.id, personal)
+        axios.put(ruta+this.state.id, personal)
             .then(response => {
                 if(response.data != null){
                     this.setState(this.initialState);

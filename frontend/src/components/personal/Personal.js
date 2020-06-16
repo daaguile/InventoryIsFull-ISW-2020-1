@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Card, Container, Col, Row, Table, ButtonGroup, Button} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import PersonalForm from './PersonalForm';
 import axios from 'axios';
 
 
+const ruta = "http://localhost:9000/api/personal/";
 export default class Personal extends Component {
 
     constructor(props){
@@ -15,7 +16,7 @@ export default class Personal extends Component {
     }
 
     componentDidMount(){
-        axios.get("http://localhost:9090/api/personal")
+        axios.get(ruta)
             .then(response => response.data)
             .then((data) => {
                 this.setState({personal: data})
@@ -23,7 +24,7 @@ export default class Personal extends Component {
     }
 
     deletePersonal = (personalId) => {
-        axios.delete("http://localhost:9090/api/personal/"+personalId)
+        axios.delete(ruta+personalId)
             .then(response => {
                 if(response.data != null){
                     alert("Personal Borrado");
