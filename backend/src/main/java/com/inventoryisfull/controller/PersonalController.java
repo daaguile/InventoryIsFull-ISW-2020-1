@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import com.inventoryisfull.exceptions.*;
 
 @RestController
-@RequestMapping("/api/personal")
 @CrossOrigin
+@RequestMapping("/api/personal")
 public class PersonalController {
 
     @Autowired

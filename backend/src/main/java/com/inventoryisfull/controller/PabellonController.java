@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import com.inventoryisfull.exceptions.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/pabellones")
 public class PabellonController {
 

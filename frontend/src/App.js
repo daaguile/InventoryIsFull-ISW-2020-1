@@ -1,9 +1,11 @@
 import React from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import NavigationBar from './components/NavigationBar';
 import Welcome from './components/Welcome';
 import Footer from './components/Footer';
-import Pabellones from './components/pabellones/Pabellones';
+import Pabellones from './components/pabellones/Pabellon';
 import Personal from './components/personal/Personal';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import PersonalForm from './components/personal/PersonalForm';

@@ -8,7 +8,7 @@ export default class Welcome extends Component {
         return(
             <Container>
                 <Row>
-                    <Col lg={12} style={{marginTop:"20px"}}>
+                    <Col lg={{span: 10, offset: 1}} style={{marginTop:"20px"}}>
                         <Jumbotron>
                             <div>
                                 <h1>SiGPS</h1>
