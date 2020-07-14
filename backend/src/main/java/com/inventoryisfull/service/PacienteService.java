@@ -37,11 +37,12 @@ public class PacienteService {
 
         Paciente paciente = getPacienteById(id).getBody();
 
-        paciente.setNombres(editPaciente.getNombres());
+        paciente.setRegistro(editPaciente.getRegistro());
+        /*
         paciente.setApellidoPaterno(editPaciente.getApellidoPaterno());
         paciente.setApellidoMaterno(editPaciente.getApellidoMaterno());
         paciente.setRut(editPaciente.getRut());
-        paciente.setDao(editPaciente.getDao());
+        paciente.setDao(editPaciente.getDao()); */
 
         final Paciente updatedPaciente = savePaciente(paciente).getBody();
         return ResponseEntity.ok(updatedPaciente);

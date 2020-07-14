@@ -1,5 +1,7 @@
 package com.inventoryisfull.domain;
 
+import java.util.Set;
+
 import javax.persistence.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -12,25 +14,26 @@ public class Pabellon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idPabellon")
     private Long id;
 
     @NotNull
-    private int piso;
+    private int sala;
 
     @NotNull
-    private String servicio;
+    private String descripcion;
 
     @NotNull
-    private String especialidad;
+    private String estado;
 
-    @NotNull
-    private String medicoJefeNombre;
+    @OneToMany(mappedBy = "Pabellon")
+    private Set<Registro> registro; 
 
-    @NotNull
-    private String medicoJefeApellido;
 
     public Pabellon() {
     }
+
+    
 
     public Long getId() {
         return id;
@@ -40,44 +43,42 @@ public class Pabellon {
         this.id = id;
     }
 
-    public int getPiso() {
-        return piso;
+    public int getSala() {
+        return sala;
     }
 
-    public void setPiso(int piso) {
-        this.piso = piso;
+    public void setSala(int sala) {
+        this.sala = sala;
     }
 
-    public String getServicio() {
-        return servicio;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setServicio(String servicio) {
-        this.servicio = servicio;
+    public void setDescripcion(String descripción) {
+        this.descripcion = descripción;
     }
 
-    public String getEspecialidad() {
-        return especialidad;
+    public String getEstado() {
+        return estado;
     }
 
-    public void setEspecialidad(String especialidad) {
-        this.especialidad = especialidad;
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
-    public String getMedicoJefeNombre() {
-        return medicoJefeNombre;
+    public Set<Registro> getRegistro() {
+        return registro;
     }
 
-    public void setMedicoJefeNombre(String medicoJefeNombre) {
-        this.medicoJefeNombre = medicoJefeNombre;
+    public void setRegistro(Set<Registro> registro) {
+        this.registro = registro;
     }
 
-    public String getMedicoJefeApellido() {
-        return medicoJefeApellido;
+    public Pabellon(Long id) {
+        this.id = id;
     }
 
-    public void setMedicoJefeApellido(String medicoJefeApellido) {
-        this.medicoJefeApellido = medicoJefeApellido;
-    }
+    
 
 }

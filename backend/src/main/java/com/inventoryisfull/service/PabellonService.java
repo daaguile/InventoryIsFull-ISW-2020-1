@@ -2,11 +2,13 @@ package com.inventoryisfull.service;
 
 import com.inventoryisfull.repository.PabellonRepository;
 import com.inventoryisfull.domain.Pabellon;
+import com.inventoryisfull.dto.PabellonDTO;
 
-import java.util.Map;
-import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import net.minidev.json.JSONObject;
+
 import org.springframework.http.ResponseEntity;
 import com.inventoryisfull.exceptions.*;
 
@@ -16,48 +18,59 @@ public class PabellonService {
     @Autowired
     private PabellonRepository pabellonRepository;
 
+    @Autowired
+    private PabellonMapService pabellonMapService;
+
 
     // Create
-    public ResponseEntity<Pabellon> savePabellon(Pabellon pabellon) {
+    public ResponseEntity<PabellonDTO> savePabellon(Pabellon pabellon) {
         Pabellon newPabellon = pabellonRepository.save(pabellon);
-        return ResponseEntity.ok(newPabellon);
+        PabellonDTO pabellonDTO = pabellonMapService.mapPabellonToDTO(newPabellon);
+        return ResponseEntity.ok(pabellonDTO);
     }
 
     // Read
-    public Iterable<Pabellon> listPabellones() {
-        return pabellonRepository.findAll();
+    public Iterable<PabellonDTO> listPabellones() {
+        return pabellonMapService.getAllPabellon();
     }
 
-    public ResponseEntity<Pabellon> getPabellonById(Long id) throws ResourceNotFoundException {
+    public ResponseEntity<PabellonDTO> getPabellonDTOById(Long id) throws ResourceNotFoundException {
+        Pabellon pabellon = pabellonRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Pabellon not found for this id :: " + id));
+        PabellonDTO pabellonDTO = pabellonMapService.mapPabellonToDTO(pabellon);
+        return ResponseEntity.ok(pabellonDTO);
+    }
+
+    private ResponseEntity<Pabellon> getPabellonById(Long id) throws ResourceNotFoundException {
         Pabellon pabellon = pabellonRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Pabellon not found for this id :: " + id));
         return ResponseEntity.ok(pabellon);
     }
 
     // Update
-    public ResponseEntity<Pabellon> updatePabellon(Pabellon editPabellon, Long id) throws ResourceNotFoundException {
+    public ResponseEntity<PabellonDTO> updatePabellon(Pabellon editPabellon, Long id) throws ResourceNotFoundException {
 
         Pabellon pabellon = getPabellonById(id).getBody();
 
-        pabellon.setPiso(editPabellon.getPiso());
-        pabellon.setServicio(editPabellon.getServicio());
-        pabellon.setEspecialidad(editPabellon.getEspecialidad());
-        pabellon.setMedicoJefeNombre(editPabellon.getMedicoJefeNombre());
-        pabellon.setMedicoJefeApellido(editPabellon.getMedicoJefeApellido());
+        pabellon.setSala(editPabellon.getSala());
+        pabellon.setDescripcion(editPabellon.getDescripcion());
+        pabellon.setEstado(editPabellon.getEstado());
 
-        final Pabellon updatedPabellon = savePabellon(pabellon).getBody();
-        return ResponseEntity.ok(updatedPabellon);
+        return ResponseEntity.ok(savePabellon(pabellon).getBody());
 
     }
     
     // Delete
-    public Map<String, Boolean> deletePabellon(Long id) throws ResourceNotFoundException {
+    public JSONObject deletePabellon(Long id) throws ResourceNotFoundException {
         Pabellon pabellon = getPabellonById(id).getBody();
         pabellonRepository.delete(pabellon);
 
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
+        // Map<String, Boolean> response = new HashMap<>();
+        // response.put("ok", Boolean.TRUE);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.appendField("ok", Boolean.TRUE);
+        jsonObject.appendField("mensaje", "Pabellon eliminado");
+        return jsonObject;
     }
 
 }

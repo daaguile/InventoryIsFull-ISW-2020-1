@@ -1,29 +1,30 @@
 package com.inventoryisfull.domain;
 
+import java.util.Set;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
 @Entity
-@Table(name = "pacientes")
 public class Paciente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idPaciente")
     private Long id;
 
-    private String nombres;
-
-    private String apellidoPaterno;
-
-    private String apellidoMaterno;
-
-    private String rut;
-
     @NotNull
-    @Column(name = "dao", unique = true)
-    private String dao;
+    @OneToMany(mappedBy = "Paciente")
+    private Set<Registro> registro;
 
     public Paciente() {
+
     }
 
     public Long getId() {
@@ -34,44 +35,16 @@ public class Paciente {
         this.id = id;
     }
 
-    public String getNombres() {
-        return nombres;
+    public Set<Registro> getRegistro() {
+        return registro;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void setRegistro(Set<Registro> registro) {
+        this.registro = registro;
     }
 
-    public String getApellidoPaterno() {
-        return apellidoPaterno;
-    }
-
-    public void setApellidoPaterno(String apellidoPaterno) {
-        this.apellidoPaterno = apellidoPaterno;
-    }
-
-    public String getApellidoMaterno() {
-        return apellidoMaterno;
-    }
-
-    public void setApellidoMaterno(String apellidoMaterno) {
-        this.apellidoMaterno = apellidoMaterno;
-    }
-
-    public String getRut() {
-        return rut;
-    }
-
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
-
-    public String getDao() {
-        return dao;
-    }
-
-    public void setDao(String dao) {
-        this.dao = dao;
+    public Paciente(Long id) {
+        this.id = id;
     }
 
 }

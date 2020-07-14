@@ -1,12 +1,15 @@
 package com.inventoryisfull.controller;
 
-import java.util.Map;
 import com.inventoryisfull.domain.Pabellon;
+import com.inventoryisfull.dto.PabellonDTO;
 import com.inventoryisfull.service.PabellonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import net.minidev.json.JSONObject;
+
 import com.inventoryisfull.exceptions.*;
 
 @RestController
@@ -19,24 +22,29 @@ public class PabellonController {
 
     // Create
     @PostMapping("")
-    public ResponseEntity<Pabellon> addPabellon(@Validated @RequestBody Pabellon pabellon) {
+    public ResponseEntity<PabellonDTO> addPabellon(@Validated @RequestBody Pabellon pabellon) {
         return pabellonService.savePabellon(pabellon);
     }
 
     // Read
-    @GetMapping("/{id}")
-    public ResponseEntity<Pabellon> getPabellonById(@PathVariable("id") Long id) throws ResourceNotFoundException {
-        return pabellonService.getPabellonById(id);
-    }
 
+    // Obtener todos los pabellones
     @GetMapping("")
-    public Iterable<Pabellon> listPabellones() {
+    public Iterable<PabellonDTO> listPabellones() {
         return pabellonService.listPabellones();
     }
 
+    // Obtener pabellón por id
+    @GetMapping("/{id}")
+    public ResponseEntity<PabellonDTO> getPabellonById(@PathVariable("id") Long id) throws ResourceNotFoundException {
+        return pabellonService.getPabellonDTOById(id);
+    }
+
     // Update
+
+    // Editar pabellón, cambiar estado, asignar paciente, etc.
     @PutMapping("/{id}")
-    public ResponseEntity<Pabellon> updatePabellon(@Validated @RequestBody Pabellon newPabellon, @PathVariable("id") Long id)
+    public ResponseEntity<PabellonDTO> updatePabellon(@Validated @RequestBody Pabellon newPabellon, @PathVariable("id") Long id)
             throws ResourceNotFoundException {
 
         return pabellonService.updatePabellon(newPabellon, id);
@@ -44,7 +52,7 @@ public class PabellonController {
 
     // Delete
     @DeleteMapping("/{id}")
-    public Map<String, Boolean> deletePabellon(@PathVariable("id") Long id) throws ResourceNotFoundException {
+    public JSONObject deletePabellon(@PathVariable("id") Long id) throws ResourceNotFoundException {
 
         return pabellonService.deletePabellon(id);
     }
