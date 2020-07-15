@@ -14,7 +14,7 @@ import com.inventoryisfull.exceptions.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/pabellones")
+@RequestMapping("/api/pabellon")
 public class PabellonController {
 
     @Autowired
@@ -41,13 +41,11 @@ public class PabellonController {
     }
 
     // Update
-
-    // Editar pabellón, cambiar estado, asignar paciente, etc.
     @PutMapping("/{id}")
-    public ResponseEntity<PabellonDTO> updatePabellon(@Validated @RequestBody Pabellon newPabellon, @PathVariable("id") Long id)
+    public ResponseEntity<PabellonDTO> updatePabellon(@Validated @RequestBody Pabellon editPabellon, @PathVariable("id") Long id)
             throws ResourceNotFoundException {
 
-        return pabellonService.updatePabellon(newPabellon, id);
+        return pabellonService.updatePabellon(editPabellon, id);
     }
 
     // Delete

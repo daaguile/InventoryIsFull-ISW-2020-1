@@ -1,4 +1,4 @@
-package com.inventoryisfull.service;
+package com.inventoryisfull.mapservice;
 
 import java.util.List;
 import java.util.stream.Collectors;

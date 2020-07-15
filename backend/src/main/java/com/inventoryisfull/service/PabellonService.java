@@ -11,6 +11,7 @@ import net.minidev.json.JSONObject;
 
 import org.springframework.http.ResponseEntity;
 import com.inventoryisfull.exceptions.*;
+import com.inventoryisfull.mapservice.PabellonMapService;
 
 @Service
 public class PabellonService {
@@ -65,8 +66,6 @@ public class PabellonService {
         Pabellon pabellon = getPabellonById(id).getBody();
         pabellonRepository.delete(pabellon);
 
-        // Map<String, Boolean> response = new HashMap<>();
-        // response.put("ok", Boolean.TRUE);
         JSONObject jsonObject = new JSONObject();
         jsonObject.appendField("ok", Boolean.TRUE);
         jsonObject.appendField("mensaje", "Pabellon eliminado");

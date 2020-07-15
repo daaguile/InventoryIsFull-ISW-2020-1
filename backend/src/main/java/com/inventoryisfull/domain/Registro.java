@@ -23,12 +23,12 @@ public class Registro {
     @ManyToOne
     @JsonProperty("idPaciente")
     @JoinColumn(name = "idPaciente", nullable = false)
-    private Paciente Paciente;
+    private Paciente paciente;
 
     @ManyToOne
     @JsonProperty("idPabellon")
     @JoinColumn(name = "idPabellon", nullable = false)
-    private Pabellon Pabellon;
+    private Pabellon pabellon;
 
     @NotNull
     @DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -62,22 +62,22 @@ public class Registro {
 
     @JsonProperty("idPaciente")
     public Paciente getPaciente() {
-        return Paciente;
+        return paciente;
     }
 
     @JsonProperty("idPaciente")
     public void setPaciente(Paciente paciente) {
-        this.Paciente = paciente;
+        this.paciente = paciente;
     }
 
     @JsonProperty("idPabellon")
     public Pabellon getPabellon() {
-        return Pabellon;
+        return pabellon;
     }
 
     @JsonProperty("idPabellon")
     public void setPabellon(Pabellon pabellon) {
-        this.Pabellon = pabellon;
+        this.pabellon = pabellon;
     }
 
     public Date getFechaIngreso() {
@@ -95,8 +95,6 @@ public class Registro {
     public void setHoraIngreso(Time horaIngreso) {
         this.horaIngreso = horaIngreso;
     }
-
-
 
     public Date getFecha() {
         return fecha;

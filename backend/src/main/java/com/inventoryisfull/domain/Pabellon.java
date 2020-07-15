@@ -26,7 +26,7 @@ public class Pabellon {
     @NotNull
     private String estado;
 
-    @OneToMany(mappedBy = "Pabellon")
+    @OneToMany(mappedBy = "pabellon")
     private Set<Registro> registro; 
 
 

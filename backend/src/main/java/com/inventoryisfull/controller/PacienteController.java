@@ -36,10 +36,10 @@ public class PacienteController {
 
     // Update
     @PutMapping("/{id}")
-    public ResponseEntity<Paciente> updatePaciente(@Validated @RequestBody Paciente newPaciente, @PathVariable("id") Long id)
+    public ResponseEntity<Paciente> updatePaciente(@Validated @RequestBody Paciente editPaciente, @PathVariable("id") Long id)
             throws ResourceNotFoundException {
 
-        return pacienteService.updatePaciente(newPaciente, id);
+        return pacienteService.updatePaciente(editPaciente, id);
     }
 
     // Delete

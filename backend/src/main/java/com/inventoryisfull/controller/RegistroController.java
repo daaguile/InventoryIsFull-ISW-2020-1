@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/pacientes")
+@RequestMapping("/api/pacientes/pabellon")
 @JsonComponent
 public class RegistroController {
 
@@ -20,7 +20,8 @@ public class RegistroController {
     private RegistroService registroService;
 
     // Create
-    @PostMapping(value = "/pabellon", consumes = "application/json", produces = "application/json")
+    //@PostMapping(value = "/pabellon", consumes = "application/json", produces = "application/json")
+    @PostMapping("")
     public ResponseEntity<RegistroDTO> createRegistro(@Validated @RequestBody Registro registro)
             throws ResourceNotFoundException {
         return registroService.saveRegistro(registro);

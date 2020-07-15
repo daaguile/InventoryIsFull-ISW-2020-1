@@ -4,6 +4,7 @@ import com.inventoryisfull.domain.Pabellon;
 import com.inventoryisfull.domain.Registro;
 import com.inventoryisfull.dto.RegistroDTO;
 import com.inventoryisfull.exceptions.ResourceNotFoundException;
+import com.inventoryisfull.mapservice.RegistroMapService;
 import com.inventoryisfull.repository.PabellonRepository;
 import com.inventoryisfull.repository.RegistroRepository;
 

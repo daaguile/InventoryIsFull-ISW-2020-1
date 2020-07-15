@@ -1,4 +1,4 @@
-package com.inventoryisfull.service;
+package com.inventoryisfull.mapservice;
 
 import com.inventoryisfull.domain.Registro;
 import com.inventoryisfull.dto.RegistroDTO;

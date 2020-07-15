@@ -36,10 +36,10 @@ public class PersonalController {
 
     // Update
     @PutMapping("/{id}")
-    public ResponseEntity<Personal> updatePersonal(@Validated @RequestBody Personal newPersonal,
+    public ResponseEntity<Personal> updatePersonal(@Validated @RequestBody Personal editPersonal,
             @PathVariable("id") Long id) throws ResourceNotFoundException {
 
-        return personalService.updatePersonal(newPersonal, id);
+        return personalService.updatePersonal(editPersonal, id);
     }
 
     // Delete

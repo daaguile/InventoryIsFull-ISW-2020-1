@@ -12,19 +12,23 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
 @Entity
-public class Paciente {
-
+public class Recuperacion {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idPaciente")
+    @Column(name = "idSalaRecuperación")
     private Long id;
 
     @NotNull
-    @OneToMany(mappedBy = "paciente")
-    private Set<Registro> registro;
+    private int piso;
 
-    public Paciente() {
+    @NotNull
+    private int numero;
 
+    @OneToMany(mappedBy = "recuperacion")
+    private Set<Cama> cama;
+
+    public Recuperacion() {
     }
 
     public Long getId() {
@@ -35,16 +39,30 @@ public class Paciente {
         this.id = id;
     }
 
-    public Set<Registro> getRegistro() {
-        return registro;
+    public int getPiso() {
+        return piso;
     }
 
-    public void setRegistro(Set<Registro> registro) {
-        this.registro = registro;
+    public void setPiso(int piso) {
+        this.piso = piso;
     }
 
-    public Paciente(Long id) {
-        this.id = id;
+    public int getNumero() {
+        return numero;
     }
 
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public Set<Cama> getCama() {
+        return cama;
+    }
+
+    public void setCama(Set<Cama> cama) {
+        this.cama = cama;
+    }
+
+
+    
 }
