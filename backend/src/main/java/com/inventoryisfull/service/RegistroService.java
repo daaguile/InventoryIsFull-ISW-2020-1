@@ -26,6 +26,11 @@ public class RegistroService {
     @Autowired
     private PabellonRepository pabellonRepository;
 
+    // Read
+    public Iterable<RegistroDTO> listRegistros() {
+        return registroMapService.getAllRegistros();
+    }
+
     // Create
     public ResponseEntity<RegistroDTO> saveRegistro(Registro registro) throws ResourceNotFoundException {
 

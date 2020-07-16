@@ -19,6 +19,14 @@ public class RegistroController {
     @Autowired
     private RegistroService registroService;
 
+    // Read
+
+    @GetMapping("")
+    public Iterable<RegistroDTO> getRegistros() {
+        return registroService.listRegistros();
+    }
+
+
     // Create
     //@PostMapping(value = "/pabellon", consumes = "application/json", produces = "application/json")
     @PostMapping("")

@@ -3,7 +3,6 @@ package com.inventoryisfull.domain;
 import java.util.Set;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -19,7 +18,7 @@ public class Paciente {
     @Column(name = "idPaciente")
     private Long id;
 
-    @NotNull
+
     @OneToMany(mappedBy = "paciente")
     private Set<Registro> registro;
 

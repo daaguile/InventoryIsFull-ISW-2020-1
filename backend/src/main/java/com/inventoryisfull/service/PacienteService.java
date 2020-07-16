@@ -1,13 +1,16 @@
 package com.inventoryisfull.service;
 
-import java.util.Map;
-import java.util.HashMap;
 import com.inventoryisfull.domain.Paciente;
+import com.inventoryisfull.dto.PacienteDTO;
 import com.inventoryisfull.repository.PacienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import net.minidev.json.JSONObject;
+
 import com.inventoryisfull.exceptions.*;
+import com.inventoryisfull.mapservice.PacienteMapService;
 
 @Service
 public class PacienteService {
@@ -15,49 +18,55 @@ public class PacienteService {
     @Autowired
     private PacienteRepository pacienteRepository;
 
+    @Autowired
+    private PacienteMapService pacienteMapService;
+
     // Create
-    public ResponseEntity<Paciente> savePaciente(Paciente paciente) {
+    public ResponseEntity<PacienteDTO> savePaciente(Paciente paciente) {
         Paciente newPaciente = pacienteRepository.save(paciente);
-        return ResponseEntity.ok(newPaciente);
+        PacienteDTO pacienteDTO = pacienteMapService.mapPacienteDTO(newPaciente);
+        return ResponseEntity.ok(pacienteDTO);
     }
 
     // Read
-    public Iterable<Paciente> listPacientes() {
-        return pacienteRepository.findAll();
+    public Iterable<PacienteDTO> listPacientes() {
+        return pacienteMapService.getAllPacientes();
     }
 
-    public ResponseEntity<Paciente> getPacienteById(Long id) throws ResourceNotFoundException {
+    public ResponseEntity<PacienteDTO> getPacienteDTOById(Long id) throws ResourceNotFoundException {
+        Paciente paciente = pacienteRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Paciente not found for this id: " + id));
+        PacienteDTO pacienteDTO = pacienteMapService.mapPacienteDTO(paciente);
+        return ResponseEntity.ok(pacienteDTO);
+    }
+
+    private ResponseEntity<Paciente> getPacienteById(Long id) throws ResourceNotFoundException {
         Paciente paciente = pacienteRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Paciente not found for this id: " + id));
         return ResponseEntity.ok(paciente);
     }
 
     // Update
-    public ResponseEntity<Paciente> updatePaciente(Paciente editPaciente, Long id) throws ResourceNotFoundException {
+    public ResponseEntity<PacienteDTO> updatePaciente(Paciente editPaciente, Long id) throws ResourceNotFoundException {
 
         Paciente paciente = getPacienteById(id).getBody();
 
         paciente.setRegistro(editPaciente.getRegistro());
-        /*
-        paciente.setApellidoPaterno(editPaciente.getApellidoPaterno());
-        paciente.setApellidoMaterno(editPaciente.getApellidoMaterno());
-        paciente.setRut(editPaciente.getRut());
-        paciente.setDao(editPaciente.getDao()); */
 
-        final Paciente updatedPaciente = savePaciente(paciente).getBody();
-        return ResponseEntity.ok(updatedPaciente);
+        return ResponseEntity.ok(pacienteMapService.mapPacienteDTO(pacienteRepository.save(paciente)));
 
     }
 
 
     // Delete
-    public Map<String, Boolean> deletePaciente(Long id) throws ResourceNotFoundException {
+    public JSONObject deletePaciente(Long id) throws ResourceNotFoundException {
         Paciente paciente = getPacienteById(id).getBody();
         pacienteRepository.delete(paciente);
 
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.appendField("ok", Boolean.TRUE);
+        jsonObject.appendField("mensaje", "Paciente eliminado");
+        return jsonObject;
     }
 
 

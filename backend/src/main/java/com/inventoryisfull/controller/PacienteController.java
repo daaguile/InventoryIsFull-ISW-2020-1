@@ -1,12 +1,15 @@
 package com.inventoryisfull.controller;
 
-import java.util.Map;
 import com.inventoryisfull.domain.Paciente;
+import com.inventoryisfull.dto.PacienteDTO;
 import com.inventoryisfull.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import net.minidev.json.JSONObject;
+
 import com.inventoryisfull.exceptions.*;
 
 @RestController
@@ -19,24 +22,24 @@ public class PacienteController {
 
     // Create
     @PostMapping("")
-    public ResponseEntity<Paciente> addPaciente(@Validated @RequestBody Paciente paciente) {
+    public ResponseEntity<PacienteDTO> addPaciente(@Validated @RequestBody Paciente paciente) {
         return pacienteService.savePaciente(paciente);
     }
 
     // Read
     @GetMapping("")
-    public Iterable<Paciente> getPacientes() {
+    public Iterable<PacienteDTO> getPacientes() {
         return pacienteService.listPacientes();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Paciente> getPacienteById(@PathVariable("id") Long id) throws ResourceNotFoundException {
-        return pacienteService.getPacienteById(id);
+    public ResponseEntity<PacienteDTO> getPacienteById(@PathVariable("id") Long id) throws ResourceNotFoundException {
+        return pacienteService.getPacienteDTOById(id);
     }
 
     // Update
     @PutMapping("/{id}")
-    public ResponseEntity<Paciente> updatePaciente(@Validated @RequestBody Paciente editPaciente, @PathVariable("id") Long id)
+    public ResponseEntity<PacienteDTO> updatePaciente(@Validated @RequestBody Paciente editPaciente, @PathVariable("id") Long id)
             throws ResourceNotFoundException {
 
         return pacienteService.updatePaciente(editPaciente, id);
@@ -44,7 +47,7 @@ public class PacienteController {
 
     // Delete
     @DeleteMapping("/{id}")
-    public Map<String, Boolean> deletePaciente(@PathVariable("id") Long id) throws ResourceNotFoundException {
+    public JSONObject deletePaciente(@PathVariable("id") Long id) throws ResourceNotFoundException {
 
         return pacienteService.deletePaciente(id);
     }
