@@ -1,7 +1,8 @@
 .vscode
 .classpath
 .project
-.settings/
+.settings
+target
 mvnw
 mvnw.cmd
 
