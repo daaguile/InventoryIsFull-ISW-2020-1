@@ -59,6 +59,26 @@ public class RecuperacionService {
         return ResponseEntity.ok(recuperacionDTO);
     }
 
+    private ResponseEntity<Recuperacion> getRecuperacionById(Long id) throws ResourceNotFoundException {
+        Recuperacion recuperacion = recuperacionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Sala de Recuperacion not found for this id :: " + id));
+        return ResponseEntity.ok(recuperacion);
+    }
+
+    private JSONArray getCamas(Long id) {
+
+        JSONArray idCamas = new JSONArray();
+        Iterable<Cama> camas = camaRepository.findAll();
+        for (Cama cama : camas) {
+            if (cama.getRecuperacion() != null && cama.getRecuperacion().getId().equals(id)) {
+                idCamas.add(cama.getId());
+            }
+        }
+        return idCamas;
+    }
+
+
+    // Update
     public ResponseEntity<RecuperacionDTO> camaToRecuperacion(JSONObject camaRecuperacion)
             throws ResourceNotFoundException {
         Long idSala = camaRecuperacion.getAsNumber("idSala").longValue();
@@ -98,17 +118,17 @@ public class RecuperacionService {
         recuperacionDTO.setCamas(idCamas);
         return ResponseEntity.ok(recuperacionDTO);
     }
+
+    public JSONObject deleteRecuperacion(Long id) throws ResourceNotFoundException {
+        Recuperacion recuperacion = getRecuperacionById(id).getBody();
+        recuperacionRepository.delete(recuperacion);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.appendField("ok", Boolean.TRUE);
+        jsonObject.appendField("mensaje", "Sala de recuperacion eliminada");
+        return jsonObject;
+    }
     
 
-    private JSONArray getCamas(Long id) {
-        
-        JSONArray idCamas = new JSONArray();
-        Iterable<Cama> camas = camaRepository.findAll();
-        for (Cama cama : camas) {
-            if (cama.getRecuperacion() != null && cama.getRecuperacion().getId().equals(id))  {
-                idCamas.add(cama.getId());
-            }
-        }
-        return idCamas;
-    }
+
 }

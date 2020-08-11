@@ -66,4 +66,11 @@ public class RecuperacionController {
 
     }
 
+    // Delete Sala
+    @DeleteMapping("/{id}")
+    public JSONObject deleteRecuperacion(@PathVariable("id") Long id) throws ResourceNotFoundException {
+
+        return recuperacionService.deleteRecuperacion(id);
+    }
+
 }
