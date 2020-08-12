@@ -119,6 +119,20 @@ public class RecuperacionService {
         return ResponseEntity.ok(recuperacionDTO);
     }
 
+    // Update
+    public ResponseEntity<RecuperacionDTO> updateRecuperacion(Recuperacion editRecuperacion, Long id) throws ResourceNotFoundException {
+
+        Recuperacion recuperacion = getRecuperacionById(id).getBody();
+
+        recuperacion.setPiso(editRecuperacion.getPiso());
+        recuperacion.setNumero(editRecuperacion.getNumero());
+
+        return ResponseEntity.ok(saveRecuperacion(recuperacion).getBody());
+
+    }
+
+
+    // Delete
     public JSONObject deleteRecuperacion(Long id) throws ResourceNotFoundException {
         Recuperacion recuperacion = getRecuperacionById(id).getBody();
         recuperacionRepository.delete(recuperacion);
