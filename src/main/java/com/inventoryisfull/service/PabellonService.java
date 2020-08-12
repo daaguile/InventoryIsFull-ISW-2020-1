@@ -25,6 +25,7 @@ public class PabellonService {
 
     // Create
     public ResponseEntity<PabellonDTO> savePabellon(Pabellon pabellon) {
+        pabellon.setEstado("Disponible");
         Pabellon newPabellon = pabellonRepository.save(pabellon);
         PabellonDTO pabellonDTO = pabellonMapService.mapPabellonToDTO(newPabellon);
         return ResponseEntity.ok(pabellonDTO);
