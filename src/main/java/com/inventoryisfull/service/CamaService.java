@@ -23,7 +23,7 @@ public class CamaService {
 
     // Create
     public ResponseEntity<CamaDTO> saveCama(Cama cama) {
-        cama.setEstado("libre");
+        cama.setEstado("Disponible");
         Cama newCama = camaRepository.save(cama);
         CamaDTO camaDTO = camaMapService.mapCamaToDTO(newCama);
         return ResponseEntity.ok(camaDTO);
