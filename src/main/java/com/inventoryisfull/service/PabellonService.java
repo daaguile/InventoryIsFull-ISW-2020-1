@@ -58,7 +58,8 @@ public class PabellonService {
         pabellon.setDescripcion(editPabellon.getDescripcion());
         pabellon.setEstado(editPabellon.getEstado());
 
-        return ResponseEntity.ok(savePabellon(pabellon).getBody());
+        return ResponseEntity.ok(pabellonMapService.mapPabellonToDTO(pabellonRepository.save(pabellon)));
+        //return ResponseEntity.ok(savePabellon(pabellon).getBody());
 
     }
     
